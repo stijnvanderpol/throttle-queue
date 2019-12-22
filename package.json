@@ -1,0 +1,11 @@
+{
+  "name": "@sovanderpol/queue",
+  "version": "1.0.0",
+  "description": "A small utility to turn a function into a delayed queue.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stijn van der Pol",
+  "license": "ISC"
+}
