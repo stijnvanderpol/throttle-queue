@@ -4,6 +4,10 @@
         "noImplicitAny": true,
         "module": "commonjs",
         "target": "es5",
-        "declaration": true
-    }
+        "declaration": true,
+    },
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }

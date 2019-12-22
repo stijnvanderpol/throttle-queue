@@ -5,17 +5,24 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack --mode=development",
     "build:prod": "webpack --mode=production"
   },
   "author": "Stijn van der Pol",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^24.0.24",
     "@types/node": "^12.12.21",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
