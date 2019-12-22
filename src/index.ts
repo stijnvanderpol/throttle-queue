@@ -6,11 +6,11 @@ const defaultOptions: Options = {
     skipInitialDelay: true
 };
 
-export const queue = <T>(callback: (args: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
-    const callbackQueue: {callback: (args: T) => void, args: T}[] = [];
+export const queue = <T>(callback: (args?: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
+    const callbackQueue: {callback: (args?: T) => void, args: T}[] = [];
     let timeout: NodeJS.Timer;
 
-    return (args: T) => {
+    return (args?: T) => {
         callbackQueue.push({callback, args});
 
         const run = (recursiveDelay = delay) => {
