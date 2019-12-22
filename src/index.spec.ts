@@ -2,7 +2,7 @@ import { stub } from 'sinon';
 import { queue } from './index';
 
 describe('queue', () => {
-    it('invokes the first call right away and delays subsequent calls', (finish) => {
+    it('invokes the first call right away, by default, and delays subsequent calls', (finish) => {
         const callbackStub = stub();
         const queuedCallbackStub = queue(callbackStub, 200);
 
