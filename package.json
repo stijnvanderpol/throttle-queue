@@ -12,6 +12,7 @@
   "author": "Stijn van der Pol",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^12.12.21",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.4",
