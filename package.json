@@ -2,10 +2,19 @@
   "name": "@sovanderpol/queue",
   "version": "1.0.0",
   "description": "A small utility to turn a function into a delayed queue.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": ":dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=development",
+    "build:prod": "webpack --mode=production"
   },
   "author": "Stijn van der Pol",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
+  }
 }
