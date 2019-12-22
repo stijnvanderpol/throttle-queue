@@ -10,16 +10,24 @@ export const queue = <T>(callback: (args?: T) => void, delay: number, options: P
     const callbackQueue: {callback: (args?: T) => void, args: T}[] = [];
     let timeout: NodeJS.Timer;
 
-    return (args?: T) => {
+    function cancel() {
+        callbackQueue.slice(0, callbackQueue.length);
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = undefined;
+        }
+    }
+
+    function queuedCallback(args?: T) {
         callbackQueue.push({callback, args});
 
         const run = (recursiveDelay = delay) => {
             if (!timeout && callbackQueue.length) {
                 timeout = setTimeout(() => {
-                    const { callback: queuedCallback, args: queuedArgs } = callbackQueue[0];
+                    const { callback: queuedCall, args: queuedArgs } = callbackQueue[0];
                     callbackQueue.splice(0, 1);
 
-                    queuedCallback(queuedArgs);
+                    queuedCall(queuedArgs);
                     timeout = undefined;
                     
                     run();
@@ -29,6 +37,9 @@ export const queue = <T>(callback: (args?: T) => void, delay: number, options: P
 
         run(options.skipInitialDelay ? 0 : undefined);
     }
+
+    queuedCallback.cancel = cancel;
+    return queuedCallback;
 }
 
 export default queue;
