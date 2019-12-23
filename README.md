@@ -14,7 +14,7 @@ const log = (message: string) => {
 
 const delayInMs = 500;
 
-const queuedLog = queue(Log, delayInMs);
+const queuedLog = queue(log, delayInMs);
 
 queuedLog(1); // called in the next frame
 queuedLog(2); // called after 500ms
@@ -51,8 +51,10 @@ Queue's behavior can be configured through the optional `options` parameter. Que
 
 #### skipInitialDelay Code Example
 ```
-    const queuedCallback = queue(callback, 500, { skipInitialDelay: false });
+// Skip initial delay disabled:
 
-    queuedCallback(); // called after 500ms
-    queuedCallback(); // called after 1000ms
+const queuedCallback = queue(callback, 500, { skipInitialDelay: false });
+
+queuedCallback(); // called after 500ms
+queuedCallback(); // called after 1000ms
 ```
