@@ -4,6 +4,11 @@ throttle-queue is a small utility package that provides a simple way to turn a r
 
 A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay before each execution.
 
+## Summary
+- [Example](Example)
+- [Options](Options)
+
+
 ## Example
 ```
 import { throttleQueue } from '@sovanderpol/throttle-queue';
