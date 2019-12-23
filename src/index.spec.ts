@@ -8,9 +8,9 @@ describe('queue', () => {
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallbackStub();
-        queuedCallbackStub();
-        queuedCallbackStub();
+        queuedCallbackStub(); // called immediately
+        queuedCallbackStub(); // called after 200ms
+        queuedCallbackStub(); // called after 400ms
     
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(1);
@@ -32,8 +32,8 @@ describe('queue', () => {
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallbackStub();
-        queuedCallbackStub();
+        queuedCallbackStub(); // called after 200ms
+        queuedCallbackStub(); // called after 400ms
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(0);
@@ -53,8 +53,8 @@ describe('queue', () => {
         const callbackStub = stub();
         const queuedCallbackStub = queue(callbackStub, 200, { skipInitialDelay: false });
 
-        queuedCallbackStub();
-        queuedCallbackStub();
+        queuedCallbackStub(); // called after 200ms
+        queuedCallbackStub(); // called after 400ms
         queuedCallbackStub.cancel();
 
         setTimeout(() => {
