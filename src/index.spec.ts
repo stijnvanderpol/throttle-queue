@@ -112,4 +112,18 @@ describe('throttleQueue', () => {
             finish();
         }, 10);
     });
+
+    it('throws a type error if the callback parameter is not a function', () => {
+        // @ts-ignore Intentionally passing a wrong type
+        expect(() => throttleQueue(1, 200)).toThrowError(TypeError('Expected a function'));
+
+        // @ts-ignore Intentionally passing a wrong type
+        expect(() => throttleQueue(undefined, 200)).toThrowError(TypeError('Expected a function'));
+
+        // @ts-ignore Intentionally passing a wrong type
+        expect(() => throttleQueue({}, 200)).toThrowError(TypeError('Expected a function'));
+
+        // @ts-ignore Intentionally passing a wrong type
+        expect(() => throttleQueue('arbitrary string', 200)).toThrowError(TypeError('Expected a function'));
+    });
 });
