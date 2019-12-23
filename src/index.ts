@@ -7,6 +7,10 @@ const defaultOptions: Options = {
 };
 
 export const queue = <T>(callback: (args?: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
+    if (typeof callback !== 'function') {
+        throw new TypeError('Expected a function');
+    }
+
     const callbackQueue: {callback: (args?: T) => void, args: T}[] = [];
     let timeout: NodeJS.Timer;
 
