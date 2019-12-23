@@ -4,37 +4,45 @@ import { queue } from './index';
 describe('queue', () => {
     it('executes the first call in the next frame, by default, and delays subsequent calls', (finish) => {
         const callbackStub = stub();
+        const argStub1 = { arbitraryKey: 'arbitraryValue' };
+        const argStub2 = { arbitraryKey: 'arbitraryValue' };
+        const argStub3 = { arbitraryKey: 'arbitraryValue' };
         const queuedCallback = queue(callbackStub, 200);
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallback(); // called immediately.
-        queuedCallback(); // called after 200ms.
-        queuedCallback(); // called after 400ms.
+        queuedCallback(argStub1); // called immediately.
+        queuedCallback(argStub2); // called after 200ms.
+        queuedCallback(argStub3); // called after 400ms.
         
         // delay assertion by 10ms to give JS time to execute the callback in the next frame.
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(1);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub1);
         }, 10);
         
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(2);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub2);
         }, 300);
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(3);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub3);
             finish();
         }, 500);
     });
 
     it('executes the first call after the delay if skipInitialDelay is disabled', (finish) => {
         const callbackStub = stub();
+        const argStub1 = { arbitraryKey: 'arbitraryValue' };
+        const argStub2 = { arbitraryKey: 'arbitraryValue' };
         const queuedCallback = queue(callbackStub, 200, { skipInitialDelay: false });
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallback(); // called after 200ms.
-        queuedCallback(); // called after 400ms.
+        queuedCallback(argStub1); // called after 200ms.
+        queuedCallback(argStub2); // called after 400ms.
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(0);
@@ -42,10 +50,12 @@ describe('queue', () => {
         
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(1);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub1);
         }, 300);
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(2);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub2);
             finish();
         }, 500);
     });
