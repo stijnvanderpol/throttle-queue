@@ -2,7 +2,7 @@ import { stub } from 'sinon';
 import { queue } from './index';
 
 describe('queue', () => {
-    it('executes the first call in the next frame, by default, and delays subsequent calls', (finish) => {
+    it('executes the first call with the correct params in the next frame, by default, and delays subsequent calls', (finish) => {
         const callbackStub = stub();
         const argStub1 = { arbitraryKey: 'arbitraryValue' };
         const argStub2 = { arbitraryKey: 'arbitraryValue' };
@@ -33,7 +33,7 @@ describe('queue', () => {
         }, 500);
     });
 
-    it('executes the first call after the delay if skipInitialDelay is disabled', (finish) => {
+    it('executes the first call with the correct params after the delay if skipInitialDelay is disabled', (finish) => {
         const callbackStub = stub();
         const argStub1 = { arbitraryKey: 'arbitraryValue' };
         const argStub2 = { arbitraryKey: 'arbitraryValue' };
