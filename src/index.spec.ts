@@ -48,4 +48,19 @@ describe('queue', () => {
             finish();
         }, 500);
     });
-})
+
+    it('cancels the queue and does not execute the queued callbacks', (finish) => {
+        const callbackStub = stub();
+        const queuedCallbackStub = queue(callbackStub, 200, { skipInitialDelay: false });
+
+        queuedCallbackStub();
+        queuedCallbackStub();
+        queuedCallbackStub.cancel();
+
+        setTimeout(() => {
+            expect(callbackStub.callCount).toEqual(0);
+            finish();
+        }, 500);
+    });
+
+});
