@@ -62,5 +62,25 @@ describe('queue', () => {
             finish();
         }, 500);
     });
+    
+    it('calls a subsequent call immediately if the queue has been cleared and the delay has passed', (finish) => {
+        const callbackStub = stub();
+        const queuedCallback = queue(callbackStub, 200);
+        
+        queuedCallback(); // called immediately
+        queuedCallback(); // called after 200ms
+        // the queue will be reset after an additional 200ms. 
 
+        // 500ms have passed, the queue should've been reset by now.
+        setTimeout(() => {
+            expect(callbackStub.callCount).toEqual(2);
+            queuedCallback(); // called immediately
+            
+            // delay assertion by 10ms to take into account that "immediate" calls are executed 1 frame later.
+            setTimeout(() => {
+                expect(callbackStub.callCount).toEqual(3);
+                finish();
+            }, 10);
+        }, 500)
+    });
 });
