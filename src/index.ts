@@ -23,10 +23,8 @@ export const throttleQueue = <T>(callback: (args?: T) => void, delay: number, op
 
     function cancel() {
         callbackQueue.slice(0, callbackQueue.length);
-        if (timeout) {
-            clearTimeout(timeout);
-            timeout = undefined;
-        }
+        clearTimeout(timeout);
+        timeout = undefined;
     }
 
     function queuedCallback(args?: T) {
