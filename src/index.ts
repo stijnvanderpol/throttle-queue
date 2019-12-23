@@ -7,13 +7,13 @@ const defaultOptions: Options = {
 };
 
 /**
- * Returns a queued function that when called will store the calls in a queue and execute them one by one after the provided delay.
+ * Returns a throttleQueued function that when called will store the calls in a queue and execute them one by one after the provided delay.
  * The first call will be executed in the next frame unless configured otherwise. 
- * @param callback The function to transform into a queued function.
+ * @param callback The function to transform into a throttleQueued function.
  * @param delay    The time in milliseconds between each queued function execution.
  * @param options  Optional object with configuration properties.
  */
-export const queue = <T>(callback: (args?: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
+export const throttleQueue = <T>(callback: (args?: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
     if (typeof callback !== 'function') {
         throw new TypeError('Expected a function');
     }
@@ -53,4 +53,4 @@ export const queue = <T>(callback: (args?: T) => void, delay: number, options: P
     return queuedCallback;
 }
 
-export default queue;
+export default throttleQueue;

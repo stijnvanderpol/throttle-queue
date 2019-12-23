@@ -1,19 +1,19 @@
 import { stub } from 'sinon';
-import { queue } from './index';
+import { throttleQueue } from './index';
 
-describe('queue', () => {
+describe('throttleQueue', () => {
     it('executes the first call with the correct params in the next frame, by default, and delays subsequent calls', (finish) => {
         const callbackStub = stub();
         const argStub1 = { arbitraryKey: 'arbitraryValue' };
         const argStub2 = { arbitraryKey: 'arbitraryValue' };
         const argStub3 = { arbitraryKey: 'arbitraryValue' };
-        const queuedCallback = queue(callbackStub, 200);
+        const throttleQueuedCallback = throttleQueue(callbackStub, 200);
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallback(argStub1); // called immediately.
-        queuedCallback(argStub2); // called after 200ms.
-        queuedCallback(argStub3); // called after 400ms.
+        throttleQueuedCallback(argStub1); // called immediately.
+        throttleQueuedCallback(argStub2); // called after 200ms.
+        throttleQueuedCallback(argStub3); // called after 400ms.
         
         // delay assertion by 10ms to give JS time to execute the callback in the next frame.
         setTimeout(() => {
@@ -37,12 +37,12 @@ describe('queue', () => {
         const callbackStub = stub();
         const argStub1 = { arbitraryKey: 'arbitraryValue' };
         const argStub2 = { arbitraryKey: 'arbitraryValue' };
-        const queuedCallback = queue(callbackStub, 200, { skipInitialDelay: false });
+        const throttleQueuedCallback = throttleQueue(callbackStub, 200, { skipInitialDelay: false });
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        queuedCallback(argStub1); // called after 200ms.
-        queuedCallback(argStub2); // called after 400ms.
+        throttleQueuedCallback(argStub1); // called after 200ms.
+        throttleQueuedCallback(argStub2); // called after 400ms.
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(0);
@@ -62,16 +62,16 @@ describe('queue', () => {
 
     it('executes a subsequent call in the next frame if the queue has been cleared and the delay has passed', (finish) => {
         const callbackStub = stub();
-        const queuedCallback = queue(callbackStub, 200);
+        const throttleQueuedCallback = throttleQueue(callbackStub, 200);
         
-        queuedCallback(); // called in the next frame.
-        queuedCallback(); // called after 200ms.
+        throttleQueuedCallback(); // called in the next frame.
+        throttleQueuedCallback(); // called after 200ms.
         // the queue will be reset after an additional 200ms.
 
         // 500ms have passed, the queue should've been reset by now.
         setTimeout(() => {
             expect(callbackStub.callCount).toEqual(2);
-            queuedCallback(); // called immediately
+            throttleQueuedCallback(); // called immediately
             
             // delay assertion by 10ms to give JS time to execute the callback in the next frame.
             setTimeout(() => {
@@ -83,11 +83,11 @@ describe('queue', () => {
 
     it('cancels the queue and does not execute the queued callbacks', (finish) => {
         const callbackStub = stub();
-        const queuedCallback = queue(callbackStub, 200, { skipInitialDelay: false });
+        const throttleQueuedCallback = throttleQueue(callbackStub, 200, { skipInitialDelay: false });
 
-        queuedCallback(); // called after 200ms.
-        queuedCallback(); // called after 400ms.
-        queuedCallback.cancel();
+        throttleQueuedCallback(); // called after 200ms.
+        throttleQueuedCallback(); // called after 400ms.
+        throttleQueuedCallback.cancel();
 
         setTimeout(() => {
             expect(callbackStub.callCount).toEqual(0);
@@ -97,14 +97,14 @@ describe('queue', () => {
     
     it('calls a subsequent call in the next frame if the queue has been canceled', (finish) => {
         const callbackStub = stub();
-        const queuedCallback = queue(callbackStub, 200);
+        const throttleQueuedCallback = throttleQueue(callbackStub, 200);
 
-        queuedCallback(); // called in the next frame.
-        queuedCallback(); // called after 200ms.
-        queuedCallback.cancel();
+        throttleQueuedCallback(); // called in the next frame.
+        throttleQueuedCallback(); // called after 200ms.
+        throttleQueuedCallback.cancel();
         
         expect(callbackStub.callCount).toEqual(0);
-        queuedCallback();
+        throttleQueuedCallback();
         
         // delay assertion by 10ms to give JS time to execute the callback in the next frame.
         setTimeout(() => {

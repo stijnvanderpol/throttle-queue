@@ -1,7 +1,7 @@
 {
-  "name": "@sovanderpol/queue",
+  "name": "@sovanderpol/throttle-queue",
   "version": "1.0.0",
-  "description": "A small utility to turn a function into a delayed queue.",
+  "description": "A small utility to turn a function into a throttled-queued function.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
