@@ -83,4 +83,22 @@ describe('queue', () => {
             }, 10);
         }, 500)
     });
+
+    it('calls a subsequent call in the next frame if the queue has been canceled', (finish) => {
+        const callbackStub = stub();
+        const queuedCallback = queue(callbackStub, 200);
+
+        queuedCallback(); // called in the next frame
+        queuedCallback(); // called after 200ms
+        queuedCallback.cancel();
+        
+        expect(callbackStub.callCount).toEqual(0);
+        queuedCallback();
+        
+        // delay assertion by 10ms to give JS time to execute the callback in the next frame
+        setTimeout(() => {
+            expect(callbackStub.callCount).toEqual(1);
+            finish();
+        }, 10);
+    });
 });
