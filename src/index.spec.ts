@@ -4,47 +4,53 @@ import { throttleQueue } from './index';
 describe('throttleQueue', () => {
     it('executes the first call with the correct params in the next frame, by default, and delays subsequent calls', (finish) => {
         const callbackStub = stub();
-        const argStub1 = { arbitraryKey: 'arbitraryValue' };
-        const argStub2 = { arbitraryKey: 'arbitraryValue' };
-        const argStub3 = { arbitraryKey: 'arbitraryValue' };
+        const call1Arg1Stub = { arbitraryKey: 'call 1 arg 1' };
+        const call1Arg2Stub = { arbitraryKey: 'call 1 arg 2' };
+        const call2Arg1Stub = { arbitraryKey: 'call 2 arg 1' };
+        const call3Arg1Stub = { arbitraryKey: 'call 3 arg 1' };
+        const call3Arg2Stub = { arbitraryKey: 'call 3 arg 2' };
+        const call3Arg3Stub = { arbitraryKey: 'call 3 arg 3' };
+
         const throttleQueuedCallback = throttleQueue(callbackStub, 200);
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        throttleQueuedCallback(argStub1); // called immediately.
-        throttleQueuedCallback(argStub2); // called after 200ms.
-        throttleQueuedCallback(argStub3); // called after 400ms.
+        throttleQueuedCallback(call1Arg1Stub, call1Arg2Stub); // called immediately.
+        throttleQueuedCallback(call2Arg1Stub); // called after 200ms.
+        throttleQueuedCallback(call3Arg1Stub, call3Arg2Stub, call3Arg3Stub); // called after 400ms.
 
         // delay assertion by 10ms to give JS time to execute the callback in the next frame.
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(1);
-            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub1);
+            expect(callbackStub.lastCall.args).toStrictEqual([call1Arg1Stub, call1Arg2Stub]);
         }, 10);
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(2);
-            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub2);
+            expect(callbackStub.lastCall.args).toStrictEqual([call2Arg1Stub]);
         }, 300);
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(3);
-            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub3);
+            expect(callbackStub.lastCall.args).toStrictEqual(
+                [call3Arg1Stub, call3Arg2Stub, call3Arg3Stub]
+            );
             finish();
         }, 500);
     });
 
     it('executes the first call with the correct params after the delay if skipInitialDelay is disabled', (finish) => {
         const callbackStub = stub();
-        const argStub1 = { arbitraryKey: 'arbitraryValue' };
-        const argStub2 = { arbitraryKey: 'arbitraryValue' };
+        const call1Arg1 = { arbitraryKey: 'arbitraryValue' };
+        const call2Arg1 = { arbitraryKey: 'arbitraryValue' };
         const throttleQueuedCallback = throttleQueue(
             callbackStub, 200, { skipInitialDelay: false }
         );
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        throttleQueuedCallback(argStub1); // called after 200ms.
-        throttleQueuedCallback(argStub2); // called after 400ms.
+        throttleQueuedCallback(call1Arg1); // called after 200ms.
+        throttleQueuedCallback(call2Arg1); // called after 400ms.
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(0);
@@ -52,12 +58,12 @@ describe('throttleQueue', () => {
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(1);
-            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub1);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(call1Arg1);
         }, 300);
 
         setTimeout(() => {
             expect(callbackStub.callCount).toStrictEqual(2);
-            expect(callbackStub.lastCall.args[0]).toStrictEqual(argStub2);
+            expect(callbackStub.lastCall.args[0]).toStrictEqual(call2Arg1);
             finish();
         }, 500);
     });
