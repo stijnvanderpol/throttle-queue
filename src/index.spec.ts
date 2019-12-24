@@ -15,7 +15,7 @@ describe('throttleQueue', () => {
 
         expect(callbackStub.callCount).toStrictEqual(0);
 
-        throttleQueuedCallback(call1Arg1Stub, call1Arg2Stub); // called immediately.
+        throttleQueuedCallback(call1Arg1Stub, call1Arg2Stub); // called next frame.
         throttleQueuedCallback(call2Arg1Stub); // called after 200ms.
         throttleQueuedCallback(call3Arg1Stub, call3Arg2Stub, call3Arg3Stub); // called after 400ms.
 
