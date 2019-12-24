@@ -1,6 +1,11 @@
 {
     "settings": {
-        "eslint.validate": ["javascript", "typescript"]
+        "eslint.validate": ["javascript", "typescript"],
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts"]
+            }
+        }
     },
     "env": {
         "browser": true,
@@ -25,7 +30,7 @@
     "rules": {
         "indent": ["error", 4],
         "comma-dangle": ["error", "never"],
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.ts"]}]
-
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.ts"]}],
+        "import/extensions": ["error", "ignorePackages", { "js": "never", "ts": "never" }]
     }
 }
