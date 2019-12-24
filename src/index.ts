@@ -14,15 +14,15 @@ const defaultOptions: Options = {
  * @param delay    The time in milliseconds between each queued function execution.
  * @param options  Optional object with configuration properties.
  */
-export const throttleQueue = <T>(
-    callback: (args?: T) => void,
+export const throttleQueue = <T extends (...args: any) => any>(
+    callback: T,
     delay: number, options: Partial<Options> = defaultOptions
 ) => {
     if (typeof callback !== 'function') {
         throw new TypeError('Expected a function');
     }
 
-    const callbackQueue: {callback: (args?: T) => void, args: T}[] = [];
+    const callbackQueue: {callback: T, args: Parameters<T>}[] = [];
     let timeout: NodeJS.Timer;
 
     function cancel() {
@@ -31,7 +31,7 @@ export const throttleQueue = <T>(
         timeout = undefined;
     }
 
-    function queuedCallback(args?: T) {
+    function queuedCallback(...args: Parameters<T>) {
         callbackQueue.push({ callback, args });
 
         const run = (recursiveDelay = delay) => {
@@ -40,7 +40,7 @@ export const throttleQueue = <T>(
                     const { callback: queuedCall, args: queuedArgs } = callbackQueue[0];
                     callbackQueue.splice(0, 1);
 
-                    queuedCall(queuedArgs);
+                    queuedCall(...queuedArgs);
                     timeout = undefined;
 
                     run();
@@ -54,5 +54,3 @@ export const throttleQueue = <T>(
     queuedCallback.cancel = cancel;
     return queuedCallback;
 };
-
-export default throttleQueue;
