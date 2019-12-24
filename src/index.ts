@@ -7,13 +7,17 @@ const defaultOptions: Options = {
 };
 
 /**
- * Returns a throttleQueued function that when called will store the calls in a queue and execute them one by one after the provided delay.
- * The first call will be executed in the next frame unless configured otherwise. 
+ * Returns a throttleQueued function that when called will store the calls in a queue
+ * and execute them one by one after the provided delay. The first call will be executed
+ * in the next frame unless configured otherwise.
  * @param callback The function to transform into a throttleQueued function.
  * @param delay    The time in milliseconds between each queued function execution.
  * @param options  Optional object with configuration properties.
  */
-export const throttleQueue = <T>(callback: (args?: T) => void, delay: number, options: Partial<Options> = defaultOptions) => {
+export const throttleQueue = <T>(
+    callback: (args?: T) => void,
+    delay: number, options: Partial<Options> = defaultOptions
+) => {
     if (typeof callback !== 'function') {
         throw new TypeError('Expected a function');
     }
@@ -28,7 +32,7 @@ export const throttleQueue = <T>(callback: (args?: T) => void, delay: number, op
     }
 
     function queuedCallback(args?: T) {
-        callbackQueue.push({callback, args});
+        callbackQueue.push({ callback, args });
 
         const run = (recursiveDelay = delay) => {
             if (!timeout && callbackQueue.length) {
@@ -38,17 +42,17 @@ export const throttleQueue = <T>(callback: (args?: T) => void, delay: number, op
 
                     queuedCall(queuedArgs);
                     timeout = undefined;
-                    
+
                     run();
-                }, recursiveDelay)
+                }, recursiveDelay);
             }
-        }
+        };
 
         run(options.skipInitialDelay ? 0 : undefined);
     }
 
     queuedCallback.cancel = cancel;
     return queuedCallback;
-}
+};
 
 export default throttleQueue;
