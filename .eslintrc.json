@@ -1,4 +1,7 @@
 {
+    "settings": {
+        "eslint.validate": ["javascript", "typescript"]
+    },
     "env": {
         "browser": true,
         "es6": true
