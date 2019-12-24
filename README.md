@@ -1,7 +1,9 @@
 # throttle-queue
-<img src="https://img.shields.io/codeship/3f1b02b0-07ca-0138-5eda-4e0a340c3623" />
-<img src="https://img.shields.io/codacy/coverage/0020a313cf07489592b35bbc878af151" /> 
-<img src="https://img.shields.io/codacy/grade/0020a313cf07489592b35bbc878af151" />
+<p>
+<img style="display: inline-block" src="https://img.shields.io/codeship/3f1b02b0-07ca-0138-5eda-4e0a340c3623" />
+<img style="display: inline-block" src="https://img.shields.io/codacy/coverage/0020a313cf07489592b35bbc878af151" /> 
+<img style="display: inline-block" src="https://img.shields.io/codacy/grade/0020a313cf07489592b35bbc878af151" />
+</p>
 
 throttle-queue is a small utility package that provides a simple way to turn a regular function into a throttle queued function.
 
