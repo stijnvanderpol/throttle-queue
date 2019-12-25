@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
