@@ -54,3 +54,5 @@ export const throttleQueue = <T extends (...args: any) => any>(
     queuedCallback.cancel = cancel;
     return queuedCallback;
 };
+
+export default throttleQueue;
