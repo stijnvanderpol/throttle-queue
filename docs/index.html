@@ -4,8 +4,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Throttle Queue Demo</title>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .special {
+            font-weight: bold;
+            color: #C00;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1 class="special"><code>throttle-queue</code></h1>
+        <hr>
+
+        <p>
+            When called, a throttle queued function will put itself in a queue. Each call in the queue 
+            will be executed after the configured <code>delay</code>. By default, the first call of the queue will be 
+            executed in the next frame. I.e. after a timeout of 0ms. This behavior is [configurable](options).
+        </p>
+
+        <code>
+            
+        </code>
+    </div>
+    
+
     <script src="./bundle.js"></script>
 </body>
 </html>
