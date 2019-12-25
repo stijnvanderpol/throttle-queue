@@ -9,7 +9,8 @@
     "test:coverage": "jest --collect-coverage && cat ./coverage/lcov.info | codacy-coverage",
     "lint": "eslint src/**",
     "build": "webpack --mode=development",
-    "build:prod": "webpack --mode=production"
+    "build:prod": "webpack --mode=production",
+    "build:demo": "npm run build:prod && cp dist/index.js docs/throttle-queue.js"
   },
   "author": "Stijn van der Pol",
   "license": "ISC",
