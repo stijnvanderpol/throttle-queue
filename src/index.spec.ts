@@ -130,7 +130,7 @@ describe('throttleQueue', () => {
         setTimeout(() => {
             expect(callbackStub.callCount).toEqual(2);
             finish();
-        }, 250);
+        }, 1000);
     });
 
     it('throws a type error if the callback parameter is not a function', () => {
