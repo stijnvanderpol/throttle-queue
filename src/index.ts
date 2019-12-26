@@ -11,7 +11,7 @@ const defaultOptions: Options = {
  * and execute them one by one after the provided delay. The first call will be executed
  * in the next frame unless configured otherwise.
  * @param callback The function to transform into a throttleQueued function.
- * @param delay    The time in milliseconds between each queued function execution.
+ * @param delay    The time in milliseconds between each execution. Must be a positive number or 0.
  * @param options  Optional object with configuration properties.
  */
 export const throttleQueue = <T extends (...args: any) => any>(
@@ -20,6 +20,14 @@ export const throttleQueue = <T extends (...args: any) => any>(
 ) => {
     if (typeof callback !== 'function') {
         throw new TypeError('Expected a function');
+    }
+
+    if (typeof delay !== 'number') {
+        throw new TypeError(`Expected a positive number. Instead received ${typeof delay}.`);
+    }
+
+    if (delay < 0) {
+        throw new TypeError(`Expected a positive number. Instead received ${delay}.`);
     }
 
     let callbackQueue: {callback: T, args: Parameters<T>}[] = [];

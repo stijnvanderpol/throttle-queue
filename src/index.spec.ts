@@ -133,17 +133,39 @@ describe('throttleQueue', () => {
         }, 1000);
     });
 
-    it('throws a type error if the callback parameter is not a function', () => {
-        // @ts-ignore Intentionally passing a wrong type
-        expect(() => throttleQueue(1, 200)).toThrowError(TypeError('Expected a function'));
+    describe.only('parameter validation', () => {
+        it('throws a type error if the callback parameter is not a function', () => {
+            // @ts-ignore Intentionally passing a wrong type
+            expect(() => throttleQueue(1, 200)).toThrowError(TypeError('Expected a function'));
 
-        // @ts-ignore Intentionally passing a wrong type
-        expect(() => throttleQueue(undefined, 200)).toThrowError(TypeError('Expected a function'));
+            // @ts-ignore Intentionally passing a wrong type
+            expect(() => throttleQueue(undefined, 200)).toThrowError(TypeError('Expected a function'));
 
-        // @ts-ignore Intentionally passing a wrong type
-        expect(() => throttleQueue({}, 200)).toThrowError(TypeError('Expected a function'));
+            // @ts-ignore Intentionally passing a wrong type
+            expect(() => throttleQueue({}, 200)).toThrowError(TypeError('Expected a function'));
 
-        // @ts-ignore Intentionally passing a wrong type
-        expect(() => throttleQueue('arbitrary string', 200)).toThrowError(TypeError('Expected a function'));
+            // @ts-ignore Intentionally passing a wrong type
+            expect(() => throttleQueue('arbitrary string', 200)).toThrowError(TypeError('Expected a function'));
+        });
+
+        it('does not throw an error if a valid delay parameter is passed', () => {
+            expect(throttleQueue(() => {}, 0)).not.toThrow();
+            expect(throttleQueue(() => {}, 1)).not.toThrow();
+        });
+
+        it('throws a type error if the delay parameter is a negative number', () => {
+            expect(() => throttleQueue(() => {}, -1)).toThrowError(TypeError('Expected a positive number. Instead received -1.'));
+        });
+
+        it('throws a type error if the delay parameter is not a number', () => {
+            expect(() => throttleQueue(() => {}, undefined)).toThrowError(TypeError('Expected a positive number. Instead received undefined.'));
+            expect(() => throttleQueue(() => {}, null)).toThrowError(TypeError('Expected a positive number. Instead received object.'));
+
+            // @ts-ignore intentionally passing a wrong type
+            expect(() => throttleQueue(() => {}, {})).toThrowError(TypeError('Expected a positive number. Instead received object.'));
+
+            // @ts-ignore intentionally passing a wrong type
+            expect(() => throttleQueue(() => {}, '')).toThrowError(TypeError('Expected a positive number. Instead received string.'));
+        });
     });
 });
