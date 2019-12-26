@@ -23,6 +23,39 @@ A throttle queued function will put each call into a queue and then execute them
 - [Options](Options)
 
 
+## Quickstart
+Install `throttle-queue` using the following command:
+
+```
+npm i @sovanderpol/throttle-queue
+```
+
+Then import it in your project:
+```
+import { throttleQueue } from '@sovanderpol/throttle-queue';
+
+// You can also import throttleQueue as a default import
+// import throttleQueue from '@sovanderpol/throttle-queue';
+
+/* --------- */
+
+// And change your function into a throttle queued function
+const throttleQueuedCallback = throttleQueue(callback, 500);
+```
+**Detailed implementation examples can be found below.**
+
+You can also import it in a module script tag:
+```
+<script type="module">
+    import './throttle-queue.js';
+
+    function foo() { ... }
+
+    const throttleQueuedFoo = throttleQueue(foo, 500);
+</script>
+```
+ **An example of this can be found in the <a href="https://stijnvanderpol.github.io/throttle-queue/" target="_blank">demo</a>.**
+
 ## Example
 ```
 import { throttleQueue } from '@sovanderpol/throttle-queue';
@@ -77,7 +110,7 @@ throttleQueuedIncreaseCounter.cancel();
 ```
 
 ## Options
-Throttle-queue's behavior can be configured through the optional `options` parameter. Throttle-queue currently supports the following options:
+`throttle-queue`'s behavior can be configured through the optional `options` parameter. `throttle-queue` currently supports the following options:
 <table>
     <tr>
         <th>property</th>
