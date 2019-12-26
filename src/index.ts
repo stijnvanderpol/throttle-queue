@@ -22,11 +22,11 @@ export const throttleQueue = <T extends (...args: any) => any>(
         throw new TypeError('Expected a function');
     }
 
-    const callbackQueue: {callback: T, args: Parameters<T>}[] = [];
+    let callbackQueue: {callback: T, args: Parameters<T>}[] = [];
     let timeout: NodeJS.Timer;
 
     function cancel() {
-        callbackQueue.slice(0, callbackQueue.length);
+        callbackQueue = [];
         clearTimeout(timeout);
         timeout = undefined;
     }
