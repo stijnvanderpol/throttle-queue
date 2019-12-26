@@ -15,7 +15,13 @@
             font-weight: bold;
             color: #C00;
         }
+
+        h3 {
+            margin-top: 40px;
+        }
     </style>
+    <link rel="stylesheet"
+    href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/default.min.css">
 </head>
 <body>
     <div class="container">
@@ -28,16 +34,63 @@
             executed in the next frame. I.e. after a timeout of 0ms. This behavior is [configurable](options).
         </p>
 
-        <code>
-            
-        </code>
+        <h3>Demo - Throttle Queued Click Handler</h3>
+        <div class="example">
+            counter: <span id="counter-value">0</span>
+            <button id="increase-count">increase count</button>
+            <button id="cancel-count">cancel</button>
+        </div>
+
+        <pre><code class="javascript">
+// DOM element refs
+const counterValue = document.getElementById('counter-value');
+const increaseCountButton = document.getElementById('increase-count');
+const cancelButton = document.getElementById('cancel-count');
+
+let count = 0;
+
+// non throttle queued click handler
+function onClickHandler() {
+    count++;
+    counterValue.innerHTML = count;
+}
+
+// throttle queued click handler
+const tqClickHandler = throttleQueue(onClickHandler, 1000);
+
+// assign click handlers
+increaseCountButton.onclick = tqClickHandler;
+cancelButton.onclick = tqClickHandler.cancel;
+        </code></pre>
     </div>
     
 
     <script type="module">
-        import throttleQueue from './throttle-queue.js';
+        import './throttle-queue.js';
 
-        console.log(throttleQueue);
+        // DOM element refs
+        const counterValue = document.getElementById('counter-value');
+        const increaseCountButton = document.getElementById('increase-count');
+        const cancelButton = document.getElementById('cancel-count');
+
+        let count = 0;
+
+        // non throttle queued click handler
+        function onClickHandler() {
+            count++;
+            counterValue.innerHTML = count;
+        }
+
+        // throttle queued click handler
+        const tqClickHandler = throttleQueue(onClickHandler, 1000);
+
+        increaseCountButton.onclick = tqClickHandler;
+        cancelButton.onclick = tqClickHandler.cancel;
+    </script>
+
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
     </script>
 </body>
 </html>
