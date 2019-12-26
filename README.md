@@ -1,5 +1,5 @@
 <div align="center">
-<h1 style="color: #C00;"><code>throttle-queue</code></h1>
+<h1 style="color: #C00;">throttle-queue</h1>
 <p>
 Utility package that provides a simple way to turn a regular function into a "throttle queued" function.
 </p>
