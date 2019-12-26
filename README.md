@@ -9,7 +9,7 @@
 
 throttle-queue is a small utility package that provides a simple way to turn a regular function into a throttle queued function.
 
-A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay before each execution.
+A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay before each execution. Queued calls can be canceled by using the cancel function.
 
 ## Summary
 - [Example](Example)
@@ -20,31 +20,52 @@ A throttle queued function will put each call into a queue and then execute them
 ```
 import { throttleQueue } from '@sovanderpol/throttle-queue';
 
-const log = (message: string) => {
-    console.log(message)
+let counter = 0;
+
+const increaseCounter = (increaseBy: number) => {
+    counter += increaseBy;
 };
 
-const delayInMs = 500;
+const throttleQueuedIncreaseCounter = throttleQueue(increaseCounter, 500);
 
-const throttleQueuedLog = throttleQueue(log, delayInMs);
+throttleQueuedIncreaseCounter(1); // called next frame
+throttleQueuedIncreaseCounter(2); // called after 500ms
+throttleQueuedIncreaseCounter(3); // called after 1000ms
 
-throttleQueuedLog(1); // called in the next frame
-throttleQueuedLog(2); // called after 500ms
-throttleQueuedLog(3); // called after 1000ms
+/* After 1000ms have passed.. */
 
-
-setTimeout(() => {
-    // 2 seconds have passed. The queue has reset itself by now.
-    throttleQueuedLog(4); // called in the next frame
-}, 2000);
+// counter === 6
 ```
 *The following applies for above the code example:*
 
-When `throttleQueuedLog` is called for the first time it executes `log` in the next frame*. The other calls to `throttleQueuedLog` are made within the 500ms threshold, so those calls are put in a queue. Every 500ms one of the queued calls will then be executed in a first-in-first-out order.
+When `throttleQueuedIncreaseCounter(1)` is called it executes `increaseCounter(1)` in the next frame*. At this point
+a 500ms timer starts. If `throttleQueuedIncreaseCounter` is called before this timer has expired, the new calls
+are put in a queue. In the above example `throttleQueuedIncreaseCounter(2)` and `throttleQueuedIncreaseCounter(3)` are called before the timer has finished. So both calls are put in the queue. 
 
-Once the queue has been emptied and an additional 500ms have passed, the mechanism resets. The next time `throttleQueuedLog` is called, it executes `log` in the next frame.
+Every 500ms, the call at the front of the queue will be executed. Once the queue has been emptied - and an additional 500ms have passed - the mechanism resets. I.e. the next time `throttleQueuedIncreaseCounter` is called, it executes `increaseCounter` in the next frame* and starts running a 500ms timer again.
 
 \* If the delay is skipped the call will be executed after a timeout of 0ms. I.e. next frame.
+
+## Cancel
+```
+import { throttleQueue } from '@sovanderpol/throttle-queue';
+
+let counter = 0;
+
+const increaseCounter = (increaseBy: number) => {
+    counter += increaseBy;
+};
+
+const throttleQueuedIncreaseCounter = throttleQueue(increaseCounter, 500);
+
+throttleQueuedIncreaseCounter(1); // called next frame
+throttleQueuedIncreaseCounter(2); // called after 500ms
+throttleQueuedIncreaseCounter(3); // called after 1000ms
+
+throttleQueuedIncreaseCounter.cancel();
+
+// counter === 0
+```
 
 ## Options
 Throttle-queue's behavior can be configured through the optional `options` parameter. Throttle-queue currently supports the following options:
