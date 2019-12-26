@@ -16,7 +16,7 @@ Utility package that provides a simple way to turn a regular function into a "th
 <img src="https://img.shields.io/github/license/stijnvanderpol/throttle-queue" />
 </p>
 
-A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay before each execution. Queued calls can be canceled by using the cancel function.
+A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay after each execution. Queued calls can be canceled by using the cancel function.
 
 ## Summary
 - [Example](Example)
@@ -54,6 +54,7 @@ Every 500ms, the call at the front of the queue will be executed. Once the queue
 \* If the delay is skipped the call will be executed after a timeout of 0ms. I.e. next frame.
 
 ## Cancel
+Queued calls can be cancelled at any time by calling the `cancel` function.
 ```
 import { throttleQueue } from '@sovanderpol/throttle-queue';
 
@@ -69,6 +70,7 @@ throttleQueuedIncreaseCounter(1); // called next frame
 throttleQueuedIncreaseCounter(2); // called after 500ms
 throttleQueuedIncreaseCounter(3); // called after 1000ms
 
+// cancel all queued throttleQueuedIncreaseCounter calls
 throttleQueuedIncreaseCounter.cancel();
 
 // counter === 0
