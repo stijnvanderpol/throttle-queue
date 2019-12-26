@@ -133,7 +133,7 @@ describe('throttleQueue', () => {
         }, 1000);
     });
 
-    describe.only('parameter validation', () => {
+    describe('parameter validation', () => {
         it('throws a type error if the callback parameter is not a function', () => {
             // @ts-ignore Intentionally passing a wrong type
             expect(() => throttleQueue(1, 200)).toThrowError(TypeError('Expected a function'));
@@ -148,7 +148,7 @@ describe('throttleQueue', () => {
             expect(() => throttleQueue('arbitrary string', 200)).toThrowError(TypeError('Expected a function'));
         });
 
-        it('does not throw an error if a valid delay parameter is passed', () => {
+        it('does not throw an error if a positive number is passed as delay parameter', () => {
             expect(throttleQueue(() => {}, 0)).not.toThrow();
             expect(throttleQueue(() => {}, 1)).not.toThrow();
         });
