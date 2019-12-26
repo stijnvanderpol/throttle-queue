@@ -1,4 +1,13 @@
-# throttle-queue
+<div align="center">
+<h1 style="color: #C00;"><code>throttle-queue</code></h1>
+<p>
+Utility package that provides a simple way to turn a regular function into a "throttle queued" function.
+</p>
+<p>
+<a href="https://stijnvanderpol.github.io/throttle-queue/" target="_blank">check the demo</a>
+</p>
+</div>
+<hr>
 <p>
 <img src="https://img.shields.io/codeship/3f1b02b0-07ca-0138-5eda-4e0a340c3623" />
 <img src="https://img.shields.io/codacy/coverage/0020a313cf07489592b35bbc878af151" /> 
@@ -6,8 +15,6 @@
 <img src="https://img.shields.io/npm/types/typescript" />
 <img src="https://img.shields.io/github/license/stijnvanderpol/throttle-queue" />
 </p>
-
-throttle-queue is a small utility package that provides a simple way to turn a regular function into a throttle queued function.
 
 A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay before each execution. Queued calls can be canceled by using the cancel function.
 
