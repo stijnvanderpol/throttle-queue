@@ -44,7 +44,8 @@ const throttleQueuedCallback = throttleQueue(callback, 500);
 ```
 **Detailed implementation examples can be found below.**
 
-You can also import it in a module script tag:
+You can also import it in a module script tag. Save the contents of <a href="https://raw.githubusercontent.com/stijnvanderpol/throttle-queue/master/dist/throttle-queue.js">this file</a> as `throttle-queue.js` and
+import it as a module script:
 ```
 <script type="module">
     import './throttle-queue.js';
