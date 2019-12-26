@@ -16,7 +16,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js',
+        filename: 'throttle-queue.js',
         library: 'throttleQueue',
         libraryTarget: 'umd',
         umdNamedDefine: true,
