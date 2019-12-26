@@ -80,12 +80,17 @@ describe('throttleQueue', () => {
         setTimeout(() => {
             expect(callbackStub.callCount).toEqual(2);
             throttleQueuedCallback(); // called immediately
+            throttleQueuedCallback(); // called after 200ms
 
             // delay assertion by 10ms to give JS time to execute the callback in the next frame.
             setTimeout(() => {
                 expect(callbackStub.callCount).toEqual(3);
-                finish();
             }, 10);
+
+            setTimeout(() => {
+                expect(callbackStub.callCount).toEqual(4);
+                finish();
+            }, 250);
         }, 500);
     });
 
@@ -114,13 +119,18 @@ describe('throttleQueue', () => {
         throttleQueuedCallback.cancel();
 
         expect(callbackStub.callCount).toEqual(0);
-        throttleQueuedCallback();
+        throttleQueuedCallback(); // called next frame.
+        throttleQueuedCallback(); // called after 200ms.
 
         // delay assertion by 10ms to give JS time to execute the callback in the next frame.
         setTimeout(() => {
             expect(callbackStub.callCount).toEqual(1);
-            finish();
         }, 10);
+
+        setTimeout(() => {
+            expect(callbackStub.callCount).toEqual(2);
+            finish();
+        }, 250);
     });
 
     it('throws a type error if the callback parameter is not a function', () => {
