@@ -35,20 +35,21 @@ export const throttleQueue = <T extends (...args: any) => any>(
         callbackQueue.push({ callback, args });
 
         const run = (recursiveDelay = delay) => {
-            if (!timeout && callbackQueue.length) {
-                timeout = setTimeout(() => {
+            timeout = setTimeout(() => {
+                if (callbackQueue.length) {
                     const { callback: queuedCall, args: queuedArgs } = callbackQueue[0];
                     callbackQueue.splice(0, 1);
-
                     queuedCall(...queuedArgs);
-                    timeout = undefined;
-
                     run();
-                }, recursiveDelay);
-            }
+                } else {
+                    timeout = undefined;
+                }
+            }, recursiveDelay);
         };
 
-        run(options.skipInitialDelay ? 0 : undefined);
+        if (!timeout) {
+            run(options.skipInitialDelay ? 0 : undefined);
+        }
     }
 
     queuedCallback.cancel = cancel;
