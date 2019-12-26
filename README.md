@@ -18,11 +18,6 @@ Utility package that provides a simple way to turn a regular function into a "th
 
 A throttle queued function will put each call into a queue and then execute them, one by one, with a configurable delay after each execution. Queued calls can be canceled by using the cancel function.
 
-## Summary
-- [Example](Example)
-- [Options](Options)
-
-
 ## Quickstart
 Install `throttle-queue` using the following command:
 
