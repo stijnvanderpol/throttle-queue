@@ -1,4 +1,4 @@
 node_modules
-dist
+dist/index.d.ts
 coverage
 docs/node_modules
